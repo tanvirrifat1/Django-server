@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from . models import Student
 
 # Create your views here.
 
@@ -16,3 +17,7 @@ def free_course(request):
         "c4": course4,
     }
     return render(request, "resources/free_course.html", course_details)
+
+def student_info(request):
+    sdetails=Student.objects.all()
+    return render(request, "courses/student_info.html", {"student_details": sdetails})

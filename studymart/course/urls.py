@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path("fr", views.free_course),
+    path("st", views.student_info),
 ]
