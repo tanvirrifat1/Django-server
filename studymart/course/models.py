@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Student(models.Model):
-    student_id = models.IntegerField()
+    student_id = models.AutoField(primary_key=True)
     student_name = models.CharField(max_length=50)
     student_email = models.EmailField(max_length=30)
     batch = models.IntegerField()

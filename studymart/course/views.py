@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from . models import Student
 from . forms import StudentRegistration
+from django.shortcuts import render, redirect
+from .forms import StudentRegistration
 
 # Create your views here.
 
@@ -25,18 +27,40 @@ def student_info(request):
 
 
 
-def show_form(req):
+def show_form(request):
+    if request.method == "POST":
+        form = StudentRegistration(request.POST)
 
+        if form.is_valid():
+            print("=" * 50)
+            print("✓ Form is valid")
+            print("=" * 50)
 
-   if req.method=="POST":
-        frm=StudentRegistration(req.POST)
-        print(frm)
-        print('Excute POST')
+            for field, value in form.cleaned_data.items():
+                print(f"{field}: {value}")
 
-   else:
-        frm = StudentRegistration(auto_id=True, label_suffix=" = ", initial={'email':'rif@gmail.com'})
-        frm.order_fields(field_order=['email','first_name','last_name','batch'])
-        print('Excute GET')
-        return render(req, 'courses/forms.html', {'form': frm})
+            print("=" * 50)
 
+            form.save()
+
+            # Redirect after successful submission
+            return redirect("success")
+
+        print("✗ Form errors:", form.errors)
+
+    else:
+        form = StudentRegistration(
+            auto_id=True,
+            label_suffix=" = ",
+            initial={"email": "rif@gmail.com"},
+        )
+        form.order_fields(
+            ["email", "first_name", "last_name", "batch"]
+        )
+
+    return render(request, "courses/forms.html", {"form": form})
     
+
+
+def show_success(request):
+    return render(request, "courses/success.html")
