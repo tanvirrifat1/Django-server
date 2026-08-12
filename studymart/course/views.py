@@ -1,13 +1,9 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from . models import Student
-from . forms import StudentRegistration
 from django.shortcuts import render, redirect
+from .models import Student
 from .forms import StudentRegistration
 
+
 # Create your views here.
-
-
 def free_course(request):
     course1 = "free course"
     course2 = "paid course"
@@ -42,8 +38,6 @@ def show_form(request):
             print("=" * 50)
 
             form.save()
-
-            # Redirect after successful submission
             return redirect("success")
 
         print("✗ Form errors:", form.errors)
@@ -55,7 +49,7 @@ def show_form(request):
             initial={"email": "rif@gmail.com"},
         )
         form.order_fields(
-            ["email", "first_name", "last_name", "batch"]
+            ["first_name", "last_name", "email", "password", "batch", "textarea", "payment", "django"]
         )
 
     return render(request, "courses/forms.html", {"form": form})
@@ -64,3 +58,7 @@ def show_form(request):
 
 def show_success(request):
     return render(request, "courses/success.html")
+
+
+
+ 
