@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
+from . forms import usercf
 
 # Create your views here.
 
@@ -13,13 +14,12 @@ def userfrom(request):
 
 
     if request.method == "POST":
-        frm=UserCreationForm(request.POST)
+        frm=usercf(request.POST)
         if frm.is_valid():
             frm.save()
 
     else:
-        frm=UserCreationForm()
+        frm=usercf()
 
-    frm=UserCreationForm()
     return render(request, "resources/userfrom.html", {"form": frm})
      
